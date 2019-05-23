@@ -6,22 +6,26 @@
     <%- include('../includes/navigation.ejs') %>
 
     <main>
+        <% if (errorMessage) { %>
+            <div class="user-message user-message--error"><%= errorMessage %></div>
+        <% } %>
         <div class="booth">
-            <video id="video" width="400" height="300" autoplay></video>
-            <button id="snap">Snap Photo</button>
-            <canvas id="canvas" width="400" height="300"></canvas>
-            <form method="post" action="myaccount.php">
-                <input name="imgsrc" id="imgsrc" type="hidden" value="">
-                <button type="submit" name="submit" id="submitphoto">Submit Photo</button>
+            <video id="video" width="600" height="450" autoplay></video>
+            <button class="button-pic" id="snap">Snap Photo</button>
+            <canvas id="canvas" width="600" height="450"></canvas>
+            <form method="post" action="/admin/webcam">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <input name="imgsrc" id="imgsrc" type="hidden">
+                <button class="button-pic" type="submit" name="submit" id="submitphoto">Submit Photo</button>
             </form>
         </div>
         </br>
         <div class="flex-container">
-            <img class="items" src="../img/1.png">
-            <img class="items" src="http://localhost:3000/Camagru/img/2.png">
-            <img class="items" src="http://localhost:3000/Camagru/img/3.png">
-            <img class="items" src="http://localhost:3000/Camagru/img/4.png">
-            <img class="items" src="http://localhost:3000/Camagru/img/5.png">
+            <img class="items" src="/img/1.png">
+            <img class="items" src="/img/2.png">
+            <img class="items" src="/img/3.png">
+            <img class="items" src="/img/4.png">
+            <img class="items" src="/img/5.png">
         </div>
     </main>
     <script src="/js/photo.js"></script>

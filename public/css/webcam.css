@@ -1,5 +1,5 @@
 .booth {
-    width: 420px;
+    width: 620px;
     border: 10px solid black;
     background-image: url("../img/booth.jpg");
     background-position: center;
@@ -21,4 +21,14 @@
   height: 100px;
   width: 100px;
   margin: 10px;
+}
+
+.button-pic {
+  height: 40px;
+  text-align: center;
+  width:100%;
+  color: white;
+  border-radius: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  background: #228B22;
 }
