@@ -1,0 +1,39 @@
+{
+  "name": "camagru-2.0",
+  "version": "1.0.0",
+  "description": "Instagram-like website made in NodeJS and Express",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js",
+    "start-server": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rdu-toi/Camagru-2.0.git"
+  },
+  "author": "rdu-toi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rdu-toi/Camagru-2.0/issues"
+  },
+  "homepage": "https://github.com/rdu-toi/Camagru-2.0#readme",
+  "devDependencies": {
+    "nodemon": "^1.19.0"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "connect-flash": "^0.1.1",
+    "connect-mongodb-session": "^2.1.1",
+    "csurf": "^1.10.0",
+    "ejs": "^2.6.1",
+    "express": "^4.17.0",
+    "express-session": "^1.16.1",
+    "express-validator": "^5.3.1",
+    "mongodb": "^3.2.5",
+    "mongoose": "^5.5.10",
+    "nodemailer": "^6.1.1",
+    "nodemailer-sendgrid-transport": "^0.2.0"
+  }
+}

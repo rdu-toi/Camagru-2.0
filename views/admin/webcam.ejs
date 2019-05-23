@@ -1,0 +1,28 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/webcam.css">
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+
+    <main>
+        <div class="booth">
+            <video id="video" width="400" height="300" autoplay></video>
+            <button id="snap">Snap Photo</button>
+            <canvas id="canvas" width="400" height="300"></canvas>
+            <form method="post" action="myaccount.php">
+                <input name="imgsrc" id="imgsrc" type="hidden" value="">
+                <button type="submit" name="submit" id="submitphoto">Submit Photo</button>
+            </form>
+        </div>
+        </br>
+        <div class="flex-container">
+            <img class="items" src="http://localhost:3000/Camagru/img/1.png">
+            <img class="items" src="http://localhost:3000/Camagru/img/2.png">
+            <img class="items" src="http://localhost:3000/Camagru/img/3.png">
+            <img class="items" src="http://localhost:3000/Camagru/img/4.png">
+            <img class="items" src="http://localhost:3000/Camagru/img/5.png">
+        </div>
+    </main>
+    <script src="../../public/js/photo.js"></script>
+    <%- include('../includes/end.ejs') %>
