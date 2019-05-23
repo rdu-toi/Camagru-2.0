@@ -6,6 +6,6 @@ const isAuth = require('../middleware/is-auth');
 
 const router = express.Router();
 
-router.get('/webcam', isAuth, adminController.getWebcam);
+router.get('/webcam', isAuth, express.static(__dirname + '/public'), adminController.getWebcam);
 
 module.exports = router;

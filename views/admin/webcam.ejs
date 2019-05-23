@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="/css/webcam.css">
 </head>
 
-<body>
+<body onload="startCam()">
     <%- include('../includes/navigation.ejs') %>
 
     <main>
@@ -17,12 +17,12 @@
         </div>
         </br>
         <div class="flex-container">
-            <img class="items" src="http://localhost:3000/Camagru/img/1.png">
+            <img class="items" src="../img/1.png">
             <img class="items" src="http://localhost:3000/Camagru/img/2.png">
             <img class="items" src="http://localhost:3000/Camagru/img/3.png">
             <img class="items" src="http://localhost:3000/Camagru/img/4.png">
             <img class="items" src="http://localhost:3000/Camagru/img/5.png">
         </div>
     </main>
-    <script src="../../public/js/photo.js"></script>
+    <script src="/js/photo.js"></script>
     <%- include('../includes/end.ejs') %>
