@@ -7,4 +7,6 @@ const router = express.Router();
 
 router.get('/', guestController.getIndex);
 
+router.get('/gallery', guestController.getGallery);
+
 module.exports = router;

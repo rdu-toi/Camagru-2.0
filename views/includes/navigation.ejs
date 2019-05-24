@@ -11,7 +11,7 @@
             </li>
             <% if (isAuthenticated) { %>
                 <li class="main-header__item">
-                    <a class="<%= path === '/webcam' ? 'active' : '' %>" href="/admin/webcam">Take a Pic</a>
+                    <a class="<%= path === '/admin/webcam' ? 'active' : '' %>" href="/admin/webcam">Take a Pic</a>
                 </li>
             <% } %>
         </ul>
@@ -28,7 +28,7 @@
                     <a class="<%= path === '/admin/my-gallery' ? 'active' : '' %>" href="/admin/my-gallery">My Gallery</a>
                 </li>
                 <li class="main-header__item">
-                    <a class="<%= path === '/admin/products' ? 'active' : '' %>" href="/admin/products">Admin Products</a>
+                    <a class="<%= path === '/admin/my-account' ? 'active' : '' %>" href="/admin/my-account">My Account</a>
                 </li>
                 <li class="main-header__item">
                     <form action="/logout" method="post">
@@ -51,7 +51,7 @@
         </li>
         <% if (isAuthenticated) { %>
             <li class="mobile-nav__item">
-                <a class="<%= path === '/webcam' ? 'active' : '' %>" href="/webcam">Take a Pic</a>
+                <a class="<%= path === '/admin/webcam' ? 'active' : '' %>" href="/admin/webcam">Take a Pic</a>
             </li>
         <% } %>
         <% if (!isAuthenticated) { %>
@@ -66,7 +66,7 @@
                 <a class="<%= path === '/admin/my-gallery' ? 'active' : '' %>" href="/admin/my-gallery">My Gallery</a>
             </li>
             <li class="mobile-nav__item">
-                <a class="<%= path === '/admin/products' ? 'active' : '' %>" href="/admin/products">Admin Products</a>
+                    <a class="<%= path === '/admin/my-account' ? 'active' : '' %>" href="/admin/my-account">My Account</a>
             </li>
             <li class="mobile-nav__item">
                 <form action="/logout" method="post">
