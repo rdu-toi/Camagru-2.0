@@ -17,27 +17,9 @@ router.post('/webcam', isAuth, adminController.postWebcam);
 router.post('/my-account', isAuth,
     [
         body('username', 'Username has to be between 3 and 15 characters.')
-            .isLength({ min: 3, max: 15 })
-            .custom((value, { req }) => {
-                return User.findOne({ username: value }).then(userDoc => {
-                    if (userDoc) {
-                        return Promise.reject(
-                            'Username alredy exists, please pick a different one.'
-                        );
-                    }
-                });
-            }),
+            .isLength({ min: 3, max: 15 }),
         body('email', 'Please enter a valid email.')
             .isEmail()
-            .custom((value, { req }) => {
-                return User.findOne({ email: value }).then(userDoc => {
-                    if (userDoc) {
-                        return Promise.reject(
-                            'E-Mail already exists, please pick a different one.'
-                        );
-                    }
-                });
-            })
             .normalizeEmail(),
         body('password', 'Password has to be alphanumeric and between 6 and 12 characters.')
             .trim()
@@ -53,6 +35,6 @@ router.post('/my-account', isAuth,
             })
     ],
     adminController.postMyAccount
-    );
+);
 
 module.exports = router;

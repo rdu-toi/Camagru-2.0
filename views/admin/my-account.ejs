@@ -10,7 +10,7 @@
         <% if (errorMessage) { %>
             <div class="user-message user-message--error"><%= errorMessage %></div>
         <% } %>
-        <form class="login-form" action="/signup" method="POST" novalidate>
+        <form class="login-form" action="/admin/my-account" method="POST" novalidate>
             <div class="form-control">
                 <label for="email">Username</label>
                 <input 
@@ -48,7 +48,7 @@
                     value="<%= oldInput.confirmPassword %>">
             </div>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <button class="btn" type="submit">Signup</button>
+            <button class="btn" type="submit">Update</button>
         </form>
     </main>
 <%- include('../includes/end.ejs') %>

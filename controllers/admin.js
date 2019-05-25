@@ -1,3 +1,6 @@
+const bcrypt = require("bcryptjs");
+const { validationResult } = require("express-validator/check");
+
 const Image = require('../models/image');
 const User = require('../models/user');
 
@@ -21,8 +24,8 @@ exports.postWebcam = (req, res, next) => {
     const userId = req.user;
 
     const image = new Image({
-          userId: userId,
-          image: img
+      userId: userId,
+      image: img
     });
     image.save()
       .then(result => {
@@ -32,20 +35,23 @@ exports.postWebcam = (req, res, next) => {
         console.log(err);
       });
   }
+  else {
+    res.redirect('/admin/webcam');
+  }
 };
 
 exports.getMyGallery = (req, res, next) => {
   Image.find({ userId: req.user._id })
-  .then(images => {
+    .then(images => {
       res.render('admin/my-gallery', {
-          images: images,
-          pageTitle: 'My Gallery',
-          path: '/admin/my-gallery'
+        images: images,
+        pageTitle: 'My Gallery',
+        path: '/admin/my-gallery'
       });
-  })
-  .catch(err => {
+    })
+    .catch(err => {
       console.log(err);
-  });
+    });
 };
 
 exports.getMyAccount = (req, res, next) => {
@@ -57,7 +63,6 @@ exports.getMyAccount = (req, res, next) => {
   }
 
   const username = req.user.username;
-  const email = req.user.email;
   const email = req.user.email;
 
   res.render('admin/my-account', {
@@ -100,26 +105,28 @@ exports.postMyAccount = (req, res, next) => {
     .hash(password, 12)
     .then(hashedPassword => {
       User.findById(req.user._id)
-      .then(user => {
+        .then(user => {
           user.username = username;
           user.email = email;
           user.password = hashedPassword;
-          user.save();
-          res.user = user;
-          req.session.user = user;
-          return req.session.save(err => {
+          return user.save(err => {
             console.log(err);
-            res.redirect('/');
+            req.session.user = user;
+            req.session.isLoggedIn = true;
+            req.session.save(err => {
+              req.user = req.session.user;
+              console.log(err);
+            });
           });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    })
-    .then(result => {
-      res.redirect('/login');
+        })
+        .then(result => {
+          res.redirect('/');
+        })
+        .catch(err => {
+          console.log(err);
+        });
     })
     .catch(err => {
       console.log(err);
     });
-};
+  };

@@ -160,7 +160,7 @@ exports.postSignup = (req, res, next) => {
       res.redirect('/login');
       return transporter.sendMail({
         to: email,
-        from: 'shop@node-complete.com',
+        from: 'we@camagru-2.0.com',
         subject: 'Signup succeeded!',
         html: '<h1>You successfully signed up!</h1>'
       });

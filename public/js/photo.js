@@ -2,8 +2,6 @@ function startCam() {
     let canvas = document.getElementById('canvas');
     let context = canvas.getContext('2d');
     let video = document.getElementById('video');
-    let img;
-    let videoflag = 0;
     let choose = document.querySelectorAll(".items");
 
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -16,37 +14,33 @@ function startCam() {
     }
 
     document.getElementById("snap").addEventListener("click", () => {
-        context.drawImage(video, 0, 0, 600, 450)
-            .then(result => {
-                choose.forEach(element => {
-                    element.addEventListener("click", () => {
-                        img = element;
-                        if (img && videoflag === 1) {
-                            if (img.src === imgPath + "/1.png") {
-                                context.drawImage(img, 75, 25, 250, 250);
-                            }
-                            else if (img.src === "/img/2.png") {
-                                context.drawImage(img, 60, 100, 100, 100);
-                            }
-                            else if (img.src === "/img/3.png") {
-                                context.drawImage(img, 250, 125, 100, 100);
-                            }
-                            else if (img.src === "/img/4.png") {
-                                context.drawImage(img, 0, 0, 400, 300);
-                            }
-                            else if (img.src === "/img/5.png") {
-                                context.drawImage(img, 65, 114, 250, 250);
-                            }
-                            let dataURL = canvas.toDataURL('image/png');
-                            document.getElementById("imgsrc").value = dataURL;
-                        }
-                    });
-                });
-            })
-            .catch(err => {
-                console.log(err);
+        context.drawImage(video, 0, 0, 600, 450);
+        let dataURL = canvas.toDataURL('image/png');
+        document.getElementById("imgsrc").value = dataURL;
+        choose.forEach(element => {
+            element.addEventListener("click", () => {
+                console.log(element);
+                if (element) {
+                    if (element.id === "sticker1") {
+                        console.log('First sticker');
+                        context.drawImage(element, 90, 10, 420, 420);
+                    }
+                    else if (element.id === "sticker2") {
+                        context.drawImage(element, 40, 130, 150, 150);
+                    }
+                    else if (element.id === "sticker3") {
+                        context.drawImage(element, 400, 140, 150, 150);
+                    }
+                    else if (element.id === "sticker4") {
+                        context.drawImage(element, 0, 0, 600, 450);
+                    }
+                    else if (element.id === "sticker5") {
+                        context.drawImage(element, 140, 228, 300, 300);
+                    }
+                    let dataURL = canvas.toDataURL('image/png');
+                    document.getElementById("imgsrc").value = dataURL;
+                }
             });
-        // let dataURL = canvas.toDataURL('image/png');
-        // document.getElementById("imgsrc").value = dataURL;
+        });
     });
 };

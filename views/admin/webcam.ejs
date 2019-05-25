@@ -21,64 +21,12 @@
         </div>
         </br>
         <div class="flex-container">
-            <img class="items" src="/img/1.png">
-            <img class="items" src="/img/2.png">
-            <img class="items" src="/img/3.png">
-            <img class="items" src="/img/4.png">
-            <img class="items" src="/img/5.png">
+            <img class="items" id="sticker1" src="/img/1.png">
+            <img class="items" id="sticker2" src="/img/2.png">
+            <img class="items" id="sticker3" src="/img/3.png">
+            <img class="items" id="sticker4" src="/img/4.png">
+            <img class="items" id="sticker5" src="/img/5.png">
         </div>
     </main>
-    <script>
-        function startCam() {
-            let canvas = document.getElementById('canvas');
-            let context = canvas.getContext('2d');
-            let video = document.getElementById('video');
-            let img;
-            let choose = document.querySelectorAll(".items");
-
-            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                navigator.mediaDevices.getUserMedia({
-                    video: true
-                }).then(function (stream) {
-                    video.srcObject = stream;
-                    video.play();
-                });
-            }
-
-            document.getElementById("snap").addEventListener("click", () => {
-                context.drawImage(video, 0, 0, 600, 450);
-                    // .then(result => {
-                    //     choose.forEach(element => {
-                    //         element.addEventListener("click", () => {
-                    //             img = element;
-                    //             if (img) {
-                    //                 if (img.src === imgPath + "/img/1.png") {
-                    //                     context.drawImage(img, 75, 25, 250, 250);
-                    //                 }
-                    //                 else if (img.src === "/img/2.png") {
-                    //                     context.drawImage(img, 60, 100, 100, 100);
-                    //                 }
-                    //                 else if (img.src === "/img/3.png") {
-                    //                     context.drawImage(img, 250, 125, 100, 100);
-                    //                 }
-                    //                 else if (img.src === "/img/4.png") {
-                    //                     context.drawImage(img, 0, 0, 400, 300);
-                    //                 }
-                    //                 else if (img.src === "/img/5.png") {
-                    //                     context.drawImage(img, 65, 114, 250, 250);
-                    //                 }
-                                    let dataURL = canvas.toDataURL('image/png');
-                                    document.getElementById("imgsrc").value = dataURL;
-                    //             }
-                    //         });
-                    //     });
-                    // })
-                    // .catch(err => {
-                    //     console.log(err);
-                    // });
-                // let dataURL = canvas.toDataURL('image/png');
-                // document.getElementById("imgsrc").value = dataURL;
-            });
-        };
-    </script>
+    <script src="/js/photo.js"></script>
     <%- include('../includes/end.ejs') %>
