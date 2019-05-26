@@ -12,6 +12,8 @@ router.get('/my-gallery', isAuth, adminController.getMyGallery);
 
 router.get('/my-account', isAuth, adminController.getMyAccount);
 
+router.get('/comment/:imageId', isAuth, adminController.getImageComments);
+
 router.post('/webcam', isAuth, adminController.postWebcam);
 
 router.post('/my-account', isAuth,
@@ -36,5 +38,9 @@ router.post('/my-account', isAuth,
     ],
     adminController.postMyAccount
 );
+
+router.post('/delete-image', isAuth, adminController.postDeleteImage);
+
+router.post('/comment', isAuth, adminController.postImageComments);
 
 module.exports = router;

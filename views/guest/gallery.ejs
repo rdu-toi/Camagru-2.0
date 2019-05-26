@@ -1,5 +1,4 @@
 <%- include('../includes/head.ejs') %>
-<link rel="stylesheet" href="/css/product.css">
 </head>
 
 <body>
@@ -9,14 +8,16 @@
         <% if (images.length > 0) { %>
         <div class="grid">
             <% for (let image of images.reverse()) { %>
-            <article class="card product-item">
+            <article id="hello" class="card product-item">
                 <div class="card__image">
                     <img src="<%= image.image %>" alt="">
                 </div>
                 <header class="card__header">
-                    <h1 class="product__title">
+                    <h1 style="display:inline-block; text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;" class="product__title">
                         <%= image.userId.username %>
                     </h1>
+                    <a style="float:right;" href="/admin/comment/<%= image.id %>" class="btn">Comment</a>
+                    <a style="float:right; margin-right: 10px" href="" class="btn">Like</a>
                 </header>
             </article>
             <% } %>

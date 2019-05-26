@@ -5,9 +5,18 @@
 }
 
 body {
+  background-image: url("../img/background1.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   padding: 0;
-  margin: 0;
+  margin: 0 auto;
   font-family: 'Open Sans', sans-serif;
+}
+
+html, 
+body {
+    height: 100%;
 }
 
 main {
@@ -17,6 +26,11 @@ main {
 
 form {
   display: inline;
+}
+
+footer{
+	position: fixed;
+	bottom: 0;
 }
 
 .centered {
@@ -248,6 +262,30 @@ form {
   color: red;
 }
 
+.footer-basic-centered{
+	background-color: #292c2f;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+	box-sizing: border-box;
+	width: 100%;
+	text-align: center;
+	font: normal 18px sans-serif;
+
+	padding: 45px;
+	margin-top: 80px;
+}
+
+.footer-basic-centered .footer-company-motto{
+	color:  #8d9093;
+	font-size: 24px;
+	margin: 0;
+}
+
+.footer-basic-centered .footer-company-name{
+	color:  #8f9296;
+	font-size: 14px;
+	margin: 0;
+}
+
 @media (min-width: 768px) {
   .main-header__nav {
     display: flex;
@@ -260,4 +298,20 @@ form {
   .user-message {
     width: 30rem;
   }
+
+	.footer-basic-centered{
+		padding: 35px;
+	}
+
+	.footer-basic-centered .footer-company-motto{
+		font-size: 18px;
+	}
+
+	.footer-basic-centered .footer-company-name{
+		font-size: 12px;
+	}
+}
+
+@media (max-height:800px){
+	footer { position: static; }
 }

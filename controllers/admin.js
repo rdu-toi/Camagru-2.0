@@ -3,6 +3,7 @@ const { validationResult } = require("express-validator/check");
 
 const Image = require('../models/image');
 const User = require('../models/user');
+const Comment = require('../models/comment');
 
 exports.getWebcam = (req, res, next) => {
   let message = req.flash('error');
@@ -129,4 +130,72 @@ exports.postMyAccount = (req, res, next) => {
     .catch(err => {
       console.log(err);
     });
-  };
+};
+
+exports.postDeleteImage = (req, res, next) => {
+  const imageId = req.body.imageId;
+  Image.deleteOne({ _id: imageId, userId: req.user._id })
+    .then(() => {
+      console.log('Image Deleted!');
+      res.redirect('/admin/my-gallery');
+    })
+    .catch(err => console.log(err));
+};
+
+exports.getImageComments = (req, res, next) => {
+  let message = req.flash('error');
+  if (message.length > 0) {
+    message = message[0];
+  } else {
+    message = null;
+  }
+
+  const imageId = req.params.imageId;
+  Image.findById(imageId)
+    .then(image => {
+      Comment.find({ imageId })
+        .populate('userId')
+        .exec()
+        .then(comments => {
+          res.render('admin/comments', {
+            image: image,
+            pageTitle: 'Comment',
+            path: '/comments',
+            comments: comments,
+            errorMessage: message
+          });
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+exports.postImageComments = (req, res, next) => {
+  const comment = req.body.comment;
+  const imageId = req.body.imageId;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors.array());
+    return res.status(422).render('gallery', {
+      path: '/gallery',
+      pageTitle: 'Gallery',
+      errorMessage: errors.array()[0].msg,
+      validationErrors: errors.array()
+    });
+  }
+
+  const newComment = new Comment({
+    userId: req.user._id,
+    imageId: imageId,
+    comment: comment
+  });
+  newComment.save(err => {
+    console.log(err);
+    res.redirect('/gallery');
+  })
+};
