@@ -195,6 +195,7 @@ footer{
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: stretch;
+  margin-bottom: 90px;
 }
 
 .card {
@@ -327,6 +328,6 @@ footer{
 	}
 }
 
-@media (max-height:800px){
+@media (max-height:500px){
 	footer { position: static; }
 }
