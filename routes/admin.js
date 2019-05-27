@@ -43,4 +43,6 @@ router.post('/delete-image', isAuth, adminController.postDeleteImage);
 
 router.post('/comment', isAuth, adminController.postImageComments);
 
+router.post('/like-image', isAuth, adminController.postLike);
+
 module.exports = router;

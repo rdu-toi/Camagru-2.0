@@ -6,6 +6,7 @@
 
 body {
   background-image: url("../img/background1.jpg");
+  background-color: #06284B;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -165,6 +166,19 @@ footer{
   border-color: #ffeb3b;
 }
 
+.welcome{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:
+  translate(-50%,-50%);
+  -ms-transform:translate(-50%,-50%)
+}
+
+.w3-jumbo{font-size:64px!important}
+
+.w3-animate-top{position:relative;animation:animatetop 0.4s}@keyframes animatetop{from{top:-300px;opacity:0} to{top:0;opacity:1}}
+
 .backdrop {
   position: fixed;
   top: 0;
@@ -185,6 +199,7 @@ footer{
 
 .card {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  margin-bottom: 20px;
 }
 
 .card__header,

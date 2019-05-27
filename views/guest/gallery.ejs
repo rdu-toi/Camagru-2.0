@@ -8,7 +8,7 @@
         <% if (images.length > 0) { %>
         <div class="grid">
             <% for (let image of images.reverse()) { %>
-            <article id="hello" class="card product-item">
+            <article class="card product-item">
                 <div class="card__image">
                     <img src="<%= image.image %>" alt="">
                 </div>
@@ -17,7 +17,11 @@
                         <%= image.userId.username %>
                     </h1>
                     <a style="float:right;" href="/admin/comment/<%= image.id %>" class="btn">Comment</a>
-                    <a style="float:right; margin-right: 10px" href="" class="btn">Like</a>
+                    <form action="/admin/like-image" method="POST">
+                        <input type="hidden" value="<%= image.id %>" name="imageId">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <button style="float:right; margin-right: 10px;" class="btn" type="submit">Like <%= image.likes %></button>
+                    </form>
                 </header>
             </article>
             <% } %>

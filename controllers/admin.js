@@ -199,3 +199,31 @@ exports.postImageComments = (req, res, next) => {
     res.redirect('/gallery');
   })
 };
+
+exports.postLike = (req, res, next) => {
+  const imageId = req.body.imageId;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors.array());
+    return res.status(422).render('gallery', {
+      path: '/gallery',
+      pageTitle: 'Gallery',
+      errorMessage: errors.array()[0].msg,
+      validationErrors: errors.array()
+    });
+  }
+
+  Image.findById(imageId)
+  .then(image => {
+    const likes = image.likes;
+    image.likes = likes + 1;
+    image.save(err => {
+      console.log(err);
+      res.redirect('/gallery');
+    });
+  })
+  .catch(err => {
+    cconsole.log(err);
+  })
+}

@@ -12,8 +12,7 @@
     <div class="booth">
       <img src="<%= image.image %>" width="600" height="450" ; />
       <form action="/admin/comment" method="POST" ;>
-        <textarea style="resize:none;" rows="7" cols="96" name="comment" required placeholder="Leave a comment here!"
-          ;></textarea>
+        <textarea style="resize:none;" rows="7" cols="96" name="comment" required placeholder="Leave a comment here!";></textarea>
         <button type="submit" class="btn btn-default" name="submitcomment">Submit Comment</button>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <input type="hidden" name="imageId" value="<%= image._id %>">
