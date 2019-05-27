@@ -14,20 +14,28 @@
                 </div>
                 <header class="card__header">
                     <h1 style="display:inline-block; text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;" class="product__title">
+                        <% if  (thisUser !== image.userId.username) { %>
                         <%= image.userId.username %>
+                        <% } else { %>
+                        You
+                        <% } %>
                     </h1>
+                    <% if (thisUser !== image.userId.username) { %>
                     <a style="float:right;" href="/admin/comment/<%= image.id %>" class="btn">Comment</a>
                     <form action="/admin/like-image" method="POST">
                         <input type="hidden" value="<%= image.id %>" name="imageId">
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <button style="float:right; margin-right: 10px;" class="btn" type="submit">Like <%= image.likes %></button>
                     </form>
+                    <% } %>
                 </header>
             </article>
             <% } %>
         </div>
         <% } else { %>
-        <h1>Be the first to add a pic!</h1>
+            <div class="welcome">
+              <h1 class="w3-jumbo w3-animate-top">Be the first to take a pic</h1>
+            </div>
         <% } %>
     </main>
     <%- include('../includes/end.ejs') %>

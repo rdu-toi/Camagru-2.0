@@ -22,6 +22,12 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getGallery = (req, res, next) => {
+    let thisUser;
+    if (req.user) {
+        thisUser = req.user.username;
+    }
+    else thisUser = false;
+
     Image.find()
         .populate('userId')
         .exec()
@@ -29,7 +35,8 @@ exports.getGallery = (req, res, next) => {
             res.render('guest/gallery', {
                 images: images,
                 pageTitle: 'Gallery',
-                path: '/gallery'
+                path: '/gallery',
+                thisUser: thisUser
             });
         })
         .catch(err => {

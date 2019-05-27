@@ -278,6 +278,12 @@ footer{
   color: red;
 }
 
+.user-message--success {
+  border-color: green;
+  background: rgb(186, 240, 104);
+  color: green;
+}
+
 .footer-basic-centered{
 	background-color: #292c2f;
 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);

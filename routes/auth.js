@@ -24,11 +24,15 @@ router.post(
     authController.postLogin
 );
 
+router.get('/reset', authController.getReset);
+
+router.get('/reset/:token', authController.getNewPassword);
+
 router.post(
     '/signup',
     [
-        body('username', 'Username has to be between 3 and 15 characters.')
-            .isLength({ min: 3, max: 15 })
+        body('username', 'Username has to be between 4 and 15 characters.')
+            .isLength({ min: 4, max: 15 })
             .custom((value, { req }) => {
                 return User.findOne({ username: value }).then(userDoc => {
                     if (userDoc) {
@@ -67,5 +71,26 @@ router.post(
 );
 
 router.post('/logout', authController.postLogout);
+
+router.post('/reset', authController.postReset);
+
+router.post(
+    '/new-password',
+    [
+        body('password', 'Password has to be alphanumeric and between 6 and 12 characters.')
+            .trim()
+            .isLength({ min: 6, max: 12 })
+            .isAlphanumeric(),
+        body('confirmPassword')
+            .trim()
+            .custom((value, { req }) => {
+                if (value !== req.body.password) {
+                    throw new Error('Passwords have to match!');
+                }
+                return true;
+            })
+    ],
+    authController.postNewPassword
+);
 
 module.exports = router;
