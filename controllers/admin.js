@@ -1,9 +1,20 @@
 const bcrypt = require("bcryptjs");
+const nodemailer = require("nodemailer");
+const sendgridTransport = require("nodemailer-sendgrid-transport");
 const { validationResult } = require("express-validator/check");
 
 const Image = require('../models/image');
 const User = require('../models/user');
 const Comment = require('../models/comment');
+
+const transporter = nodemailer.createTransport(
+  sendgridTransport({
+    auth: {
+      api_key:
+        "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"
+    }
+  })
+);
 
 let photos;
 
@@ -125,6 +136,9 @@ exports.postMyAccount = (req, res, next) => {
     .then(hashedPassword => {
       User.findById(req.user._id)
         .then(user => {
+          if (req.body.emailForComments) {
+            user.emailForComments = true;
+          } else user.emailForComments = false;
           user.username = username;
           user.email = email;
           user.password = hashedPassword;
@@ -200,6 +214,7 @@ exports.getImageComments = (req, res, next) => {
 exports.postImageComments = (req, res, next) => {
   const comment = req.body.comment;
   const imageId = req.body.imageId;
+  const userId = req.body.userId;
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -220,6 +235,22 @@ exports.postImageComments = (req, res, next) => {
   newComment.save(err => {
     console.log(err);
     res.redirect('/gallery');
+    User.findById(userId)
+    .then(user => {
+      console.log('Made it this far!');
+      if (user.emailForComments) {
+        console.log('Sending an email for comment to this address: ' + 'user.email');
+        return transporter.sendMail({
+          to: user.email,
+          from: 'we@camagru-2.0.com',
+          subject: 'You got a comment!',
+          html: `
+            <h1>Someone commented on one of your images:</h1>
+            <p>"${comment}"</p>
+          `
+        });
+      }
+    })
   })
 };
 
