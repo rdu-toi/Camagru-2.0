@@ -10,6 +10,8 @@ router.get('/webcam', isAuth, adminController.getWebcam);
 
 router.get('/my-gallery', isAuth, adminController.getMyGallery);
 
+router.get('/my-gallery/:page', isAuth,adminController.getMyGallery);
+
 router.get('/my-account', isAuth, adminController.getMyAccount);
 
 router.get('/comment/:imageId', isAuth, adminController.getImageComments);

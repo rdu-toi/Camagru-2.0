@@ -1,4 +1,5 @@
 const Image = require('../models/image');
+let photos;
 
 exports.getIndex = (req, res, next) => {
     let message = req.flash('error');
@@ -22,21 +23,36 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getGallery = (req, res, next) => {
+    let currentPage = 1;
     let thisUser;
     if (req.user) {
         thisUser = req.user.username;
     }
     else thisUser = false;
+    if (req.params.page) {
+        currentPage = Number(req.params.page);
+        if (photos) {
+            return res.render('guest/gallery', {
+                images: photos.reverse(),
+                pageTitle: 'Gallery',
+                path: '/gallery',
+                thisUser: thisUser,
+                currentPage: currentPage
+            });
+        }
+    }
 
     Image.find()
         .populate('userId')
         .exec()
         .then(images => {
+            photos = images.reverse();
             res.render('guest/gallery', {
-                images: images,
+                images: images.reverse(),
                 pageTitle: 'Gallery',
                 path: '/gallery',
-                thisUser: thisUser
+                thisUser: thisUser,
+                currentPage: currentPage
             });
         })
         .catch(err => {

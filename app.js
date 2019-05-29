@@ -7,6 +7,9 @@ const session = require('express-session');
 const MongoBDStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
 const flash = require('connect-flash');
+// const passport = require('passport');
+
+// require('./config/passport')(passport);
 
 // const errorController = require('./controllers/error');
 const User = require('./models/user');
@@ -27,7 +30,7 @@ const adminRoutes = require('./routes/admin');
 const guestRoutes = require('./routes/guest');
 const authRoutes = require('./routes/auth');
 
-app.use(bodyParser.urlencoded({ extended: false, limit: '5mb' }));
+app.use(bodyParser.urlencoded({ extended: false, limit: '100mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'my secret', resave: false, saveUninitialized: false, store: store }));
 app.use(csrfProtection);
@@ -62,6 +65,9 @@ mongoose
   .connect(MONGODB_URI, {useNewUrlParser: true})
   .then(result => {
     app.listen(3000);
+  })
+  .then(result => {
+    console.log('Server started!');
   })
   .catch(err => {
     console.log(err);

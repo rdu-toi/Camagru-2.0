@@ -5,6 +5,8 @@ const Image = require('../models/image');
 const User = require('../models/user');
 const Comment = require('../models/comment');
 
+let photos;
+
 exports.getWebcam = (req, res, next) => {
   let message = req.flash('error');
   if (message.length > 0) {
@@ -42,12 +44,28 @@ exports.postWebcam = (req, res, next) => {
 };
 
 exports.getMyGallery = (req, res, next) => {
+  let currentPage = 1;
+
+  if (req.params.page) {
+      currentPage = Number(req.params.page);
+      if (photos) {
+          return res.render('admin/my-gallery', {
+              images: photos.reverse(),
+              pageTitle: 'My Gallery',
+              path: 'admin/my-gallery',
+              currentPage: currentPage
+          });
+      }
+  }
+
   Image.find({ userId: req.user._id })
     .then(images => {
+      photos = images.reverse();
       res.render('admin/my-gallery', {
-        images: images,
+        images: images.reverse(),
         pageTitle: 'My Gallery',
-        path: '/admin/my-gallery'
+        path: '/admin/my-gallery',
+        currentPage: currentPage
       });
     })
     .catch(err => {
@@ -151,18 +169,23 @@ exports.getImageComments = (req, res, next) => {
   }
 
   const imageId = req.params.imageId;
+  let thisUser = false;
   Image.findById(imageId)
     .then(image => {
       Comment.find({ imageId })
         .populate('userId')
         .exec()
         .then(comments => {
+          if (image.userId._id === req.user._id) {
+            thisUser = true;
+          }
           res.render('admin/comments', {
             image: image,
             pageTitle: 'Comment',
             path: '/comments',
             comments: comments,
-            errorMessage: message
+            errorMessage: message,
+            thisUser: thisUser
           });
         })
         .catch(err => {

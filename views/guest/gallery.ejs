@@ -8,34 +8,52 @@
         <% if (images.length > 0) { %>
         <div class="grid">
             <% for (let image of images.reverse()) { %>
+                <% if (images.indexOf(image) <= (currentPage * 5) - 1 && images.indexOf(image) >= (currentPage * 5 - 5)){ %>
             <article class="card product-item">
                 <div class="card__image">
                     <img src="<%= image.image %>" alt="">
                 </div>
                 <header class="card__header">
-                    <h1 style="display:inline-block; text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;" class="product__title">
+                    <h1 style="display:inline-block; text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;"
+                        class="product__title">
                         <% if  (thisUser !== image.userId.username) { %>
                         <%= image.userId.username %>
                         <% } else { %>
                         You
                         <% } %>
                     </h1>
-                    <% if (thisUser !== image.userId.username) { %>
                     <a style="float:right;" href="/admin/comment/<%= image.id %>" class="btn">Comment</a>
                     <form action="/admin/like-image" method="POST">
                         <input type="hidden" value="<%= image.id %>" name="imageId">
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <% if (thisUser !== image.userId.username) { %>
                         <button style="float:right; margin-right: 10px;" class="btn" type="submit">Like <%= image.likes %></button>
+                        <% } else { %>
+                        <button style="float:right; margin-right: 10px;" class="btn" type="button"><%= image.likes %></button>
+                        <% } %>
                     </form>
-                    <% } %>
                 </header>
             </article>
-            <% } %>
+            <% } } %>
         </div>
         <% } else { %>
-            <div class="welcome">
-              <h1 class="w3-jumbo w3-animate-top">Be the first to take a pic</h1>
-            </div>
+        <div class="welcome">
+            <h1 class="w3-jumbo w3-animate-top">Be the first to take a pic</h1>
+        </div>
         <% } %>
+        <div class="center">
+            <div class="pagination">
+                <% let num = images.length;
+            let counter = 1;
+            let toRound = num / 5;
+            let pages = Math.floor(toRound);
+            if (num % 5 > 0) {
+                pages = pages + 1;
+            }
+            while(counter <= pages) { %>
+                <a href="/gallery/<%= counter %>" class="<% if (currentPage === counter) { %>active<% } %>"</a><%= counter %></a>
+                <% counter = counter+ 1; } %>
+            </div>
+        </div>
     </main>
     <%- include('../includes/end.ejs') %>

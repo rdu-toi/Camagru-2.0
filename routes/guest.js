@@ -9,4 +9,6 @@ router.get('/', guestController.getIndex);
 
 router.get('/gallery', guestController.getGallery);
 
+router.get('/gallery/:page', guestController.getGallery);
+
 module.exports = router;

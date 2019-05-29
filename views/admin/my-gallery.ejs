@@ -8,6 +8,7 @@
                 <% if (images.length > 0) { %>
                     <div class="grid">
                         <% for (let image of images.reverse()) { %>
+                            <% if (images.indexOf(image) <= (currentPage * 5) - 1 && images.indexOf(image) >= (currentPage * 5 - 5)){ %>
                             <article class="card product-item">
                                 <div class="card__image">
                                     <img src="<%= image.image %>" alt="">
@@ -20,12 +21,26 @@
                                     </form>
                                 </div>
                             </article>
-                            <% } %>
+                            <% } } %>
                     </div>
                     <% } else { %>
                         <div class="welcome">
                           <h1 class="w3-jumbo w3-animate-top">I'm empty. Please take a pic.</h1>
                         </div>
                         <% } %>
+                    <div class="center">
+                        <div class="pagination">
+                            <% let num = images.length;
+                        let counter = 1;
+                        let toRound = num / 5;
+                        let pages = Math.floor(toRound);
+                        if (num % 5 > 0) {
+                            pages = pages + 1;
+                        }
+                        while(counter <= pages) { %>
+                            <a href="/admin/my-gallery/<%= counter %>" class="<% if (currentPage === counter) { %>active<% } %>"</a><%= counter %></a>
+                            <% counter = counter+ 1; } %>
+                        </div>
+                    </div>
             </main>
             <%- include('../includes/end.ejs') %>
