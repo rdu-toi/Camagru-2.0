@@ -10,6 +10,9 @@
         <% if (errorMessage) { %>
             <div class="user-message user-message--error"><%= errorMessage %></div>
         <% } %>
+        <% if (successMessage) { %>
+            <div class="user-message user-message--success"><%= successMessage %></div>
+        <% } %>
         <form class="login-form" action="/login" method="POST" novalidate>
             <div class="form-control">
                 <label for="email">E-Mail</label>

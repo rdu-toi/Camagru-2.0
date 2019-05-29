@@ -27,6 +27,7 @@ exports.getLogin = (req, res, next) => {
     path: '/login',
     pageTitle: 'Login',
     errorMessage: message,
+    successMessage: '',
     oldInput: {
       email: '',
       password: ''
@@ -45,6 +46,7 @@ exports.postLogin = (req, res, next) => {
       path: '/login',
       pageTitle: 'Login',
       errorMessage: errors.array()[0].msg,
+      successMessage: '',
       oldInput: {
         email: email,
         password: password
@@ -59,6 +61,20 @@ exports.postLogin = (req, res, next) => {
           path: '/login',
           pageTitle: 'Login',
           errorMessage: 'Invalid email or password.',
+          successMessage: '',
+          oldInput: {
+            email: email,
+            password: password
+          },
+          validationErrors: []
+        });
+      }
+      if (!user.activeStatus) {
+        return res.status(422).render('auth/login', {
+          path: '/login',
+          pageTitle: 'Login',
+          errorMessage: 'Check your email to validate your account.',
+          successMessage: '',
           oldInput: {
             email: email,
             password: password
@@ -81,6 +97,7 @@ exports.postLogin = (req, res, next) => {
             path: '/login',
             pageTitle: 'Login',
             errorMessage: 'Invalid email or password.',
+            successMessage: '',
             oldInput: {
               email: email,
               password: password
@@ -114,6 +131,7 @@ exports.getSignup = (req, res, next) => {
     path: '/signup',
     pageTitle: 'Signup',
     errorMessage: message,
+    successMessage: '',
     oldInput: {
       username: '',
       email: '',
@@ -136,6 +154,7 @@ exports.postSignup = (req, res, next) => {
       path: '/signup',
       pageTitle: 'Signup',
       errorMessage: errors.array()[0].msg,
+      successMessage: '',
       oldInput: {
         username: username,
         email: email,
@@ -146,28 +165,40 @@ exports.postSignup = (req, res, next) => {
     });
   }
 
-  bcrypt
-    .hash(password, 12)
-    .then(hashedPassword => {
-      const user = new User({
-        username: username,
-        email: email,
-        password: hashedPassword
-      });
-      return user.save();
-    })
-    .then(result => {
-      res.redirect('/login');
-      return transporter.sendMail({
-        to: email,
-        from: 'we@camagru-2.0.com',
-        subject: 'Signup succeeded!',
-        html: '<h1>You successfully signed up!</h1>'
-      });
-    })
-    .catch(err => {
+  crypto.randomBytes(32, (err, buffer) => {
+    if (err) {
       console.log(err);
-    });
+      return res.redirect('/reset');
+    }
+    const token = buffer.toString('hex');
+    bcrypt
+      .hash(password, 12)
+      .then(hashedPassword => {
+        const user = new User({
+          username: username,
+          email: email,
+          password: hashedPassword,
+          resetToken: token,
+          resetTokenExpiration: Date.now() + 864000000
+        });
+        return user.save();
+      })
+      .then(result => {
+        res.redirect('/login');
+        return transporter.sendMail({
+          to: email,
+          from: 'we@camagru-2.0.com',
+          subject: 'Signup succeeded!',
+          html: `
+            <h1>You successfully signed up!</h1>
+            <p>Click this <a href="http://localhost:3000/confirm/${token}">link</a> to continue.</p>
+          `
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
 };
 
 exports.getReset = (req, res, next) => {
@@ -217,6 +248,37 @@ exports.postReset = (req, res, next) => {
         console.log(err);
       });
   });
+};
+
+exports.getConfirmAccount = (req, res, next) => {
+  const token = req.params.token;
+  User.findOne({ resetToken: token, resetTokenExpiration: { $gt: Date.now() } })
+    .then(user => {
+      let message = req.flash('error');
+      if (message.length > 0) {
+        message = message[0];
+      } else {
+        message = null;
+      }
+      user.activeStatus = true;
+      user.save(err => {
+        console.log(err);
+        res.render('auth/login', {
+            path: '/login',
+            pageTitle: 'Login',
+            errorMessage: '',
+            successMessage: 'Noice, your account has been validated!',
+            oldInput: {
+              email: '',
+              password: ''
+            },
+            validationErrors: []
+          });
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
 };
 
 exports.getNewPassword = (req, res, next) => {

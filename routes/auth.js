@@ -28,6 +28,8 @@ router.get('/reset', authController.getReset);
 
 router.get('/reset/:token', authController.getNewPassword);
 
+router.get('/confirm/:token', authController.getConfirmAccount);
+
 router.post(
     '/signup',
     [
