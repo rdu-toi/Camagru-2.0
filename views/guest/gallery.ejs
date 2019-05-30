@@ -40,7 +40,7 @@
         <div class="welcome">
             <h1 class="w3-jumbo w3-animate-top">Be the first to take a pic</h1>
         </div>
-        <% } %>
+        <% } if (images.length > 5) { %>
         <div class="center">
             <div class="pagination">
                 <% let num = images.length;
@@ -55,5 +55,6 @@
                 <% counter = counter+ 1; } %>
             </div>
         </div>
+        <% } %>
     </main>
     <%- include('../includes/end.ejs') %>
