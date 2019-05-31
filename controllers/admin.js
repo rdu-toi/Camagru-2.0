@@ -279,5 +279,5 @@ exports.postLike = (req, res, next) => {
   })
   .catch(err => {
     cconsole.log(err);
-  })
+  });
 }
